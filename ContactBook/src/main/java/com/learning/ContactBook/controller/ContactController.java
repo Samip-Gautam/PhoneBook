@@ -2,16 +2,17 @@ package com.learning.ContactBook.controller;
 
 import com.learning.ContactBook.entity.PhoneEntity;
 import com.learning.ContactBook.service.ContactService;
+import com.learning.ContactBook.service.ContactServiceInterface;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@AllArgsConstructor
 public class ContactController {
-    private final ContactService contactService;
-    public ContactController(ContactService contactService) {
-        this.contactService = contactService;
-    }
+    private final ContactServiceInterface contactService;
+
     @GetMapping("/viewall")
     public List<PhoneEntity> viewAll() {
         return contactService.viewAll();
@@ -31,7 +32,7 @@ public class ContactController {
         return contactService.add(details);   // this returns saved entity
     }
 
-    @DeleteMapping
+    @DeleteMapping("/deleteAll")
     public void deleteAll() {
         contactService.deleteAll();
     }
