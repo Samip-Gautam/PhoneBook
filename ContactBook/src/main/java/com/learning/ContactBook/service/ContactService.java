@@ -12,12 +12,14 @@ public class ContactService implements ContactServiceInterface{
 
     private final PhoneRepository phoneRepository;
 
-//    public ContactService(PhoneRepository phoneRepository) {
-//        this.phoneRepository = phoneRepository;
-//    }
     @Override
     public PhoneEntity add(PhoneEntity phoneEntity) {
-        return phoneRepository.save(phoneEntity); // save entity
+        if (!phoneRepository.existsByNumber(phoneEntity.getNumber())) {
+            return phoneRepository.save(phoneEntity);
+        }
+        else {
+            return update(phoneEntity);
+        }
     }
 
     @Override
@@ -39,4 +41,17 @@ public class ContactService implements ContactServiceInterface{
     public void deleteAll() {
         phoneRepository.deleteAll();
     }
+
+    @Override
+    public PhoneEntity update(PhoneEntity phoneEntity) {
+        PhoneEntity existing = phoneRepository.findById(phoneEntity.getId()).orElseThrow(() -> new RuntimeException("No Contact Found"));
+
+        existing.setName(phoneEntity.getName());
+        existing.setNumber(phoneEntity.getNumber());
+
+        return phoneRepository.save(existing);
+    }
+
+
+
 }

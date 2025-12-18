@@ -10,4 +10,5 @@ public interface ContactServiceInterface {
     public PhoneEntity searchByName(String name);
     public PhoneEntity searchByNumber(Long number);
     public void deleteAll();
+    public PhoneEntity update(PhoneEntity phoneEntity);
 }
